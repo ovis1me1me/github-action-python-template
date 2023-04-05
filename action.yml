@@ -1,0 +1,23 @@
+#action.yml
+name: 'Custom GitHub Action'
+inputs:
+  num:
+    required: true
+    default: "1"
+outputs:
+  num_squared:
+    value: ${{ steps.get-square.outputs.num_squared }}
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install Dependencies
+      run: pip install -r requirments.txt
+      shell: bash
+    - name: Pass Inputs to Shell
+      id: get-square
+      run: python src/get_num_square.py
+      shell: bash
